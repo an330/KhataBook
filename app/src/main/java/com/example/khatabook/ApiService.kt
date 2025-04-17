@@ -1,4 +1,8 @@
 package com.example.khatabook
 
-class ApiService {
+import retrofit2.http.GET
+
+interface ApiService {
+    @GET("objects")
+    suspend fun getItems(): List<roomItem>
 }

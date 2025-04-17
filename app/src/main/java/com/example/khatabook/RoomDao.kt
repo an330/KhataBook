@@ -6,18 +6,19 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ItemDao {
+interface RoomDao {
     @Query("SELECT * FROM items")
-    suspend fun getAll(): List<ItemEntity>
+    fun getAll(): Flow<List<roomEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(items: List<ItemEntity>)
+    suspend fun insertAll(items: List<roomEntity>)
 
     @Update
-    suspend fun update(item: ItemEntity)
+    suspend fun update(item: roomEntity)
 
     @Delete
-    suspend fun delete(item: ItemEntity)
+    suspend fun delete(item: roomEntity)
 }

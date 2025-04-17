@@ -1,4 +1,11 @@
 package com.example.khatabook
 
-class UserRepository {
+
+import kotlinx.coroutines.flow.Flow
+
+interface UserRepository {
+    suspend fun insertUser(user: User)
+    fun getUser(): Flow<User?>
+
+
 }

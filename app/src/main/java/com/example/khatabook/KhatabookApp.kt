@@ -1,4 +1,9 @@
 package com.example.khatabook
 
-class KhatabookApp {
-}
+
+
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class KhatabookApp : Application()

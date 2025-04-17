@@ -1,4 +1,10 @@
 package com.example.khatabook
 
-class AppContent {
+import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.khatabook.presentation.login.LoginScreen
+
+@Composable
+fun AppContent(viewModel: UserViewModel = hiltViewModel()) {
+    LoginScreen(viewModel)
 }
