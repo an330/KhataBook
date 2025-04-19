@@ -1,10 +1,10 @@
 package com.example.khatabook.data.repositoryImpl.api
 
-import com.example.khatabook.ApiService
-import com.example.khatabook.RoomDao
-import com.example.khatabook.RoomRepository
-import com.example.khatabook.roomEntity
-import com.example.khatabook.roomItem
+import com.example.khatabook.data.remote.ApiService
+import com.example.khatabook.data.local.dao.RoomDao
+import com.example.khatabook.domain.repository.RoomRepository
+import com.example.khatabook.data.local.entity.roomEntity
+import com.example.khatabook.domain.model.roomItem
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

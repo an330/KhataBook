@@ -1,4 +1,4 @@
-package com.example.khatabook
+package com.example.khatabook.data.local.dao
 
 
 
@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.khatabook.data.local.entity.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao

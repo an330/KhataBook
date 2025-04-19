@@ -1,6 +1,7 @@
-package com.example.khatabook
+package com.example.khatabook.domain.repository
 
 
+import com.example.khatabook.data.local.entity.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

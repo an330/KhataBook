@@ -1,8 +1,9 @@
-package com.example.khatabook
+package com.example.khatabook.presentation.viewmodal
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.khatabook.data.local.entity.User
+import com.example.khatabook.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

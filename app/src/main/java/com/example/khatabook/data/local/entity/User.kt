@@ -1,4 +1,4 @@
-package com.example.khatabook
+package com.example.khatabook.data.local.entity
 
 
 

@@ -1,7 +1,6 @@
 package com.example.khatabook.presentation.login
 
 import android.app.Activity
-import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.khatabook.R
-import com.example.khatabook.User
-import com.example.khatabook.UserViewModel
+import com.example.khatabook.data.local.entity.User
+import com.example.khatabook.presentation.viewmodal.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -33,7 +32,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 
 @Composable
-fun LoginScreen(viewModel: UserViewModel= hiltViewModel()) {
+fun LoginScreen(viewModel: UserViewModel = hiltViewModel()) {
     val context = LocalContext.current
 
     var email by remember { mutableStateOf("") }

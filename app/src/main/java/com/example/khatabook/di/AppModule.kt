@@ -1,8 +1,15 @@
-package com.example.khatabook
+package com.example.khatabook.di
 
-import AppDatabase
+
 import android.content.Context
 import androidx.room.Room
+import com.example.khatabook.data.local.AppDatabase
+import com.example.khatabook.domain.repository.RoomRepository
+import com.example.khatabook.domain.repository.UserRepository
+import com.example.khatabook.data.remote.ApiService
+import com.example.khatabook.data.local.dao.RoomDao
+import com.example.khatabook.data.local.dao.UserDao
+import com.example.khatabook.data.repository.UserRepositoryImpl
 import com.example.khatabook.data.repositoryImpl.api.RoomRepositoryImpl
 import dagger.Module
 import dagger.Provides
