@@ -9,8 +9,11 @@ import com.example.khatabook.domain.repository.UserRepository
 import com.example.khatabook.data.remote.ApiService
 import com.example.khatabook.data.local.dao.RoomDao
 import com.example.khatabook.data.local.dao.UserDao
+import com.example.khatabook.data.repository.ImageRepositoryImpl
 import com.example.khatabook.data.repository.UserRepositoryImpl
 import com.example.khatabook.data.repositoryImpl.api.RoomRepositoryImpl
+import com.example.khatabook.domain.repository.ImageRepository
+import com.example.khatabook.domain.useCase.ImageUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,4 +44,15 @@ object AppModule {
     @Provides
     fun provideRoomRepository(api: ApiService, dao: RoomDao): RoomRepository =
         RoomRepositoryImpl(api, dao)
+    @Provides
+    @Singleton
+    fun provideImageRepository(@ApplicationContext context: Context): ImageRepository {
+        return ImageRepositoryImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideImageUseCase(repository: ImageRepository): ImageUseCase {
+        return ImageUseCase(repository)
+    }
 }
