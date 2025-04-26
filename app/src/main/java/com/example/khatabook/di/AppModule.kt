@@ -4,6 +4,7 @@ package com.example.khatabook.di
 import android.content.Context
 import androidx.room.Room
 import com.example.khatabook.data.local.AppDatabase
+import com.example.khatabook.data.local.NotificationPreferences
 import com.example.khatabook.domain.repository.RoomRepository
 import com.example.khatabook.domain.repository.UserRepository
 import com.example.khatabook.data.remote.ApiService
@@ -42,8 +43,14 @@ object AppModule {
         UserRepositoryImpl(userDao)
 
     @Provides
-    fun provideRoomRepository(api: ApiService, dao: RoomDao): RoomRepository =
-        RoomRepositoryImpl(api, dao)
+    fun provideRoomRepository(
+        api: ApiService,
+        dao: RoomDao,
+        @ApplicationContext context: Context,
+        notificationPreferences: NotificationPreferences
+    ): RoomRepository =
+        RoomRepositoryImpl(api, dao, context, notificationPreferences)
+
     @Provides
     @Singleton
     fun provideImageRepository(@ApplicationContext context: Context): ImageRepository {
