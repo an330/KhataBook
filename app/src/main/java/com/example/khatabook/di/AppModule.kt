@@ -62,4 +62,11 @@ object AppModule {
     fun provideImageUseCase(repository: ImageRepository): ImageUseCase {
         return ImageUseCase(repository)
     }
+
+   /* @Provides
+    @Singleton
+    fun provideNotificationPreferences(@ApplicationContext context: Context): NotificationPreferences {
+        return NotificationPreferences(context)
+    }*/
+
 }

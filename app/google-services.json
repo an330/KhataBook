@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "962272304789",
+    "project_id": "khatabook-74e9f",
+    "storage_bucket": "khatabook-74e9f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962272304789:android:9812482a79fa37b1e7c59c",
+        "android_client_info": {
+          "package_name": "com.example.khatabook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962272304789-hdc5ouokg949nqrljf9u1q7jq5tfavqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbSZ731ffs5IB77PHp4yZMpCkY7KlPc-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962272304789-hdc5ouokg949nqrljf9u1q7jq5tfavqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

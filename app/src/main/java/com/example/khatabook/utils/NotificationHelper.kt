@@ -25,7 +25,7 @@ object NotificationHelper {
         }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification) // your notification icon
+            .setSmallIcon(R.drawable.notificationpng) // your notification icon
             .setContentTitle(title)
             .setContentText(message)
             .setAutoCancel(true)
