@@ -1,10 +1,8 @@
-package com.example.khatabook.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -23,23 +21,30 @@ import com.example.khatabook.presentation.viewmodal.SettingsViewModel
 fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     val isEnabled by viewModel.isNotificationEnabled.collectAsState(initial = true)
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start
     ) {
-        Text(text = "Settings", style = MaterialTheme.typography.headlineSmall)
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Settings",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
 
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Enable Notifications")
-            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Enable Notifications",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Spacer(modifier = Modifier.width(16.dp))
             Switch(
                 checked = isEnabled,
-                onCheckedChange = { viewModel.toggleNotification(it) }
+                onCheckedChange = { viewModel.toggleNotifications(it) }
             )
         }
     }
