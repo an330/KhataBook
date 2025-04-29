@@ -40,10 +40,7 @@ import java.io.File
 fun ImageScreen(viewModel: ImageViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val imageUri by viewModel.imageUri.collectAsState()
-
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
-
-    // 🆕 Fix: tempImageUri as a remember state
     val tempImageUri = remember { mutableStateOf<Uri?>(null) }
 
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -61,7 +58,10 @@ fun ImageScreen(viewModel: ImageViewModel = hiltViewModel()) {
     }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Button(onClick = {
                 if (permissionState.status.isGranted) {
                     val imageFile = File(context.cacheDir, "camera_image.jpg")
@@ -81,6 +81,17 @@ fun ImageScreen(viewModel: ImageViewModel = hiltViewModel()) {
 
             Button(onClick = { galleryLauncher.launch("image/*") }) {
                 Text("Select from Gallery")
+            }
+
+            Button(
+                onClick = {
+                    imageUri?.let {
+                        // Add your desired action here
+                    }
+                },
+                enabled = imageUri != null
+            ) {
+                Text("Add")
             }
         }
 

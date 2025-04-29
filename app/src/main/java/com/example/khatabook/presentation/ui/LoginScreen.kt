@@ -1,5 +1,6 @@
 package com.example.khatabook.presentation.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -30,13 +31,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LoginScreen(viewModel: UserViewModel = hiltViewModel()) {
+fun LoginScreen(
+    viewModel: UserViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit // Callback after successful login
+) {
     val context = LocalContext.current
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    // Launch effect when user is logged in
+    LaunchedEffect(viewModel.user.value) {
+        if (viewModel.user.value != null) {
+            onLoginSuccess() // Trigger success callback
+        }
+    }
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
@@ -81,6 +92,7 @@ fun LoginScreen(viewModel: UserViewModel = hiltViewModel()) {
             fontWeight = FontWeight.Bold
         )
 
+        // Email TextField
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -91,6 +103,7 @@ fun LoginScreen(viewModel: UserViewModel = hiltViewModel()) {
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
         )
 
+        // Password TextField
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -107,6 +120,7 @@ fun LoginScreen(viewModel: UserViewModel = hiltViewModel()) {
             modifier = Modifier.padding(top = 15.dp)
         )
 
+        // Google Sign-In Button
         Button(
             onClick = {
                 val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
