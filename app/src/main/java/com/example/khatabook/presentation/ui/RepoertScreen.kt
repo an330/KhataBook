@@ -22,7 +22,7 @@ import androidx.compose.runtime.setValue
 
 
 @Composable
-fun ReportScreen() {
+fun ReportScreen(onNext: () -> Unit) {
     val context = LocalContext.current
     val pdfUrl = "https://fssservices.bookxpert.co/GeneratedPDF/Companies/nadc/2024-2025/BalanceSheet.pdf"
     var downloadedFile by remember { mutableStateOf<java.io.File?>(null) }
@@ -43,6 +43,7 @@ fun ReportScreen() {
                     }
                     try {
                         context.startActivity(intent)
+                        onNext() // Navigate after opening the PDF
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -54,10 +55,8 @@ fun ReportScreen() {
 
         Button(
             onClick = {
-                // Add your desired action here for the "Add" button
-                downloadedFile?.let {
-                    // e.g., Save file reference or show confirmation
-                }
+                // Optional: trigger navigation on Add instead
+                onNext()
             },
             enabled = downloadedFile != null
         ) {

@@ -25,7 +25,7 @@
         <!-- Required for Firebase Google Sign-In -->
         <meta-data
             android:name="com.google.android.gms.client_id"
-            android:value="@string/default_web_client_id" />
+            android:value="962272304789-hdc5ouokg949nqrljf9u1q7jq5tfavqr.apps.googleusercontent.com" />
 
         <activity
             android:name=".presentation.ui.MainActivity"

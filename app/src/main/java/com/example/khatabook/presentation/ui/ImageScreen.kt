@@ -37,7 +37,10 @@ import java.io.File
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ImageScreen(viewModel: ImageViewModel = hiltViewModel()) {
+fun ImageScreen(
+    viewModel: ImageViewModel = hiltViewModel(),
+    onNext: () -> Unit // Added parameter
+) {
     val context = LocalContext.current
     val imageUri by viewModel.imageUri.collectAsState()
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
@@ -86,7 +89,8 @@ fun ImageScreen(viewModel: ImageViewModel = hiltViewModel()) {
             Button(
                 onClick = {
                     imageUri?.let {
-                        // Add your desired action here
+                        // Any additional actions here
+                        onNext() // Trigger navigation
                     }
                 },
                 enabled = imageUri != null
