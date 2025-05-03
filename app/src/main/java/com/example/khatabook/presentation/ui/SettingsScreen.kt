@@ -1,5 +1,6 @@
 package com.example.khatabook.presentation.ui
 
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,19 +11,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.khatabook.presentation.viewmodal.SettingsViewModel
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen(
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onNext: () -> Unit // Accept navigation callback
+) {
     val isEnabled by viewModel.isNotificationEnabled.collectAsState(initial = true)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
             text = "Settings",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 24.dp)
+            style = MaterialTheme.typography.headlineSmall
         )
 
         Row(
@@ -37,6 +41,14 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 checked = isEnabled,
                 onCheckedChange = { viewModel.toggleNotifications(it) }
             )
+        }
+
+        // Add "Next" button
+        Button(
+            onClick = onNext,
+            modifier = Modifier.padding(top = 24.dp)
+        ) {
+            Text("Next")
         }
     }
 }

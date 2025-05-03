@@ -63,10 +63,10 @@ object AppModule {
         return ImageUseCase(repository)
     }
 
-   /* @Provides
+    @Provides
     @Singleton
     fun provideNotificationPreferences(@ApplicationContext context: Context): NotificationPreferences {
         return NotificationPreferences(context)
-    }*/
+    }
 
 }

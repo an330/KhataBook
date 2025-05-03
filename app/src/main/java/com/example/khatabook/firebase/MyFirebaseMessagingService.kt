@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.annotation.RequiresPermission
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -73,5 +74,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         // Send token to server for push notifications
+        Log.d("FCM", "Token: $token")
     }
 }

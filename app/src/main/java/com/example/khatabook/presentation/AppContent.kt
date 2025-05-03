@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.khatabook.presentation.login.LoginScreen
 import com.example.khatabook.presentation.navigation.Screen
+import com.example.khatabook.presentation.ui.HomeScreen
 import com.example.khatabook.presentation.ui.ImageScreen
 import com.example.khatabook.presentation.ui.ReportScreen
 import com.example.khatabook.presentation.ui.SettingsScreen
@@ -22,27 +23,37 @@ fun AppContent(viewModel: UserViewModel = hiltViewModel()) {
 
     NavHost(
         navController = navController,
-        startDestination = if (user == null) Screen.Login.route else Screen.Gallery.route
+        startDestination = if (user == null) Screen.Login.route else Screen.Home.route
     ) {
         composable(Screen.Login.route) {
             LoginScreen(viewModel) {
-                navController.navigate(Screen.Gallery.route) {
+                navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Login.route) { inclusive = true }
                 }
             }
         }
+        composable(Screen.Home.route) {
+            HomeScreen(
+                onNavigateToImage = { navController.navigate(Screen.Gallery.route) },
+                onNavigateToGallery = { navController.navigate(Screen.Gallery.route) },
+                onNavigateToPDF = { navController.navigate(Screen.PDF.route) },
+                onNavigateToSettings = { navController.navigate(Screen.FCM.route) }
+            )
+        }
         composable(Screen.Gallery.route) {
             ImageScreen(onNext = {
-                navController.navigate(Screen.PDF.route)
+                navController.popBackStack() // Go back to Home after image selection
             })
         }
         composable(Screen.PDF.route) {
             ReportScreen(onNext = {
-                navController.navigate(Screen.FCM.route)
+                navController.popBackStack()
             })
         }
         composable(Screen.FCM.route) {
-            SettingsScreen()
+            SettingsScreen(onNext = {
+                navController.popBackStack()
+            })
         }
     }
 }
