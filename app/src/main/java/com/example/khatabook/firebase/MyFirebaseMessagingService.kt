@@ -1,12 +1,15 @@
 package com.example.khatabook.firebase
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.annotation.RequiresPermission
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -18,50 +21,47 @@ import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-
-    @Inject
-    lateinit var notificationPreferences: NotificationPreferences
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        // Check if notifications are enabled in DataStore
+        // Manually retrieve NotificationPreferences
+        val entryPoint = EntryPointAccessors.fromApplication(
+            applicationContext,
+            NotificationPreferencesEntryPoint::class.java
+        )
+        val notificationPreferences = entryPoint.notificationPreferences()
+
         runBlocking {
-            val enabled = notificationPreferences.isNotificationEnabled.first()
-            if (enabled) {
+            val isEnabled = notificationPreferences.isNotificationEnabled.first()
+            if (isEnabled) {
                 remoteMessage.notification?.let {
-                    // Check if the POST_NOTIFICATIONS permission is granted
                     if (ContextCompat.checkSelfPermission(
                             applicationContext,
                             Manifest.permission.POST_NOTIFICATIONS
-                        ) == PackageManager.PERMISSION_GRANTED) {
-                        sendNotification(it.title ?: "Title", it.body ?: "Message")
+                        ) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                    ) {
+                        sendNotification(it.title ?: "New Message", it.body ?: "")
                     } else {
-                        // Handle the case where permission is not granted
-                        promptForPermission()
+                        promptUserToEnableNotifications()
                     }
                 }
             }
         }
     }
 
-    // Prompt user to enable notification permission
-    private fun promptForPermission() {
-        // You can show a UI element asking the user to enable notifications
-        // or take them directly to the app settings
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.parse("package:${packageName}")
-        }
-        startActivity(intent)
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.d("FCM_TOKEN", "New token: $token")
+        // You can upload this token to your backend server if needed
     }
 
-    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     private fun sendNotification(title: String, message: String) {
-        val channelId = "default_channel"
-        val builder = NotificationCompat.Builder(this, channelId)
+        createNotificationChannel()
+
+        val builder = NotificationCompat.Builder(this, "default_channel")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(title)
             .setContentText(message)
@@ -71,9 +71,25 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
     }
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        // Send token to server for push notifications
-        Log.d("FCM", "Token: $token")
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Default Channel"
+            val descriptionText = "General App Notifications"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("default_channel", name, importance).apply {
+                description = descriptionText
+            }
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(channel)
+        }
+    }
+
+    private fun promptUserToEnableNotifications() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.parse("package:$packageName")
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
     }
 }
